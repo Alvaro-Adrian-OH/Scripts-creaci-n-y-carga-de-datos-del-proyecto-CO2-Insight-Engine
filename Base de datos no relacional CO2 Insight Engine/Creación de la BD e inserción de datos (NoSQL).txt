@@ -1,0 +1,154 @@
+use("CO2_Insight_Engine");
+
+// ---------------- VEHICULOS ----------------
+db.vehiculos.insertMany([
+{_id:1, placa:"ABC123", modelo:{nombre:"Hilux", marca:"Toyota"}, tipo_combustible:{nombre:"Gasolina 90", factor_emision_co2_l:2.31, precio_unitario:16.50}, capacidad_de_carga:1000},
+{_id:2, placa:"DEF456", modelo:{nombre:"Tucson", marca:"Hyundai"}, tipo_combustible:{nombre:"Diesel B5", factor_emision_co2_l:2.68, precio_unitario:14.20}, capacidad_de_carga:1500},
+{_id:3, placa:"GHI789", modelo:{nombre:"FH16", marca:"Volvo"}, tipo_combustible:{nombre:"Diesel B5", factor_emision_co2_l:2.68, precio_unitario:14.20}, capacidad_de_carga:8000},
+{_id:4, placa:"JKL012", modelo:{nombre:"R450", marca:"Scania"}, tipo_combustible:{nombre:"Diesel B5", factor_emision_co2_l:2.68, precio_unitario:14.20}, capacidad_de_carga:12000},
+{_id:5, placa:"MNO345", modelo:{nombre:"Actros", marca:"Mercedes-Benz"}, tipo_combustible:{nombre:"Diesel B5", factor_emision_co2_l:2.68, precio_unitario:14.20}, capacidad_de_carga:10000},
+{_id:6, placa:"PQR678", modelo:{nombre:"NPR", marca:"Isuzu"}, tipo_combustible:{nombre:"Gasolina 90", factor_emision_co2_l:2.31, precio_unitario:16.50}, capacidad_de_carga:3000},
+{_id:7, placa:"STU901", modelo:{nombre:"Corolla", marca:"Toyota"}, tipo_combustible:{nombre:"Gasolina 90", factor_emision_co2_l:2.31, precio_unitario:16.50}, capacidad_de_carga:500},
+{_id:8, placa:"VWX234", modelo:{nombre:"H1", marca:"Hyundai"}, tipo_combustible:{nombre:"GLP", factor_emision_co2_l:1.51, precio_unitario:9.80}, capacidad_de_carga:700},
+{_id:9, placa:"YZA567", modelo:{nombre:"Hilux", marca:"Toyota"}, tipo_combustible:{nombre:"GNV", factor_emision_co2_l:1.96, precio_unitario:8.50}, capacidad_de_carga:900},
+{_id:10, placa:"BCD890", modelo:{nombre:"Tucson", marca:"Hyundai"}, tipo_combustible:{nombre:"Gasolina 90", factor_emision_co2_l:2.31, precio_unitario:16.50}, capacidad_de_carga:1600},
+{_id:11, placa:"CDE123", modelo:{nombre:"Explorer", marca:"Ford"}, tipo_combustible:{nombre:"Gasolina 84", factor_emision_co2_l:2.10, precio_unitario:15.20}, capacidad_de_carga:1100},
+{_id:12, placa:"FGH456", modelo:{nombre:"Ranger", marca:"Ford"}, tipo_combustible:{nombre:"Electrico", factor_emision_co2_l:0.00, precio_unitario:1.80}, capacidad_de_carga:1300}
+]);
+
+// ---------------- ADMINISTRADORES ----------------
+db.administradores.insertMany([
+{_id:1, nombre:"Carlos", apellidos:"Ramirez Soto", tipo_documento:"DNI", num_documento:"74582136", fecha_registro:new Date("2025-01-10"), telefonos:["987111222"]},
+{_id:2, nombre:"Maria", apellidos:"Fernandez Lopez", tipo_documento:"DNI", num_documento:"71234567", fecha_registro:new Date("2025-02-15"), telefonos:["987222333"]},
+{_id:3, nombre:"Jorge", apellidos:"Quispe Mamani", tipo_documento:"DNI", num_documento:"45678912", fecha_registro:new Date("2025-03-20"), telefonos:["987333444"]},
+{_id:4, nombre:"Ana", apellidos:"Torres Diaz", tipo_documento:"Carnet de Extranjeria", num_documento:"CE12345678", fecha_registro:new Date("2025-04-05"), telefonos:["987444555","987888999"]},
+{_id:5, nombre:"Luis", apellidos:"Vargas Chura", tipo_documento:"DNI", num_documento:"80123456", fecha_registro:new Date("2025-05-12"), telefonos:["987555666"]},
+{_id:6, nombre:"Patricia", apellidos:"Mendoza Rios", tipo_documento:"DNI", num_documento:"76543210", fecha_registro:new Date("2025-06-01"), telefonos:["987666777"]},
+{_id:7, nombre:"Diego", apellidos:"Castillo Vega", tipo_documento:"DNI", num_documento:"77654321", fecha_registro:new Date("2025-06-15"), telefonos:["987777888"]},
+{_id:8, nombre:"Sofia", apellidos:"Aguilar Paz", tipo_documento:"DNI", num_documento:"78765432", fecha_registro:new Date("2025-07-01"), telefonos:[]},
+{_id:9, nombre:"Raul", apellidos:"Espinoza Cruz", tipo_documento:"Pasaporte", num_documento:"PA1234567", fecha_registro:new Date("2025-07-20"), telefonos:["987999000"]},
+{_id:10, nombre:"Carmen", apellidos:"Rojas Leon", tipo_documento:"DNI", num_documento:"79876543", fecha_registro:new Date("2025-08-05"), telefonos:["988000111"]},
+{_id:11, nombre:"Victor", apellidos:"Huaman Salas", tipo_documento:"DNI", num_documento:"80987654", fecha_registro:new Date("2025-08-25"), telefonos:["988111222"]},
+{_id:12, nombre:"Elena", apellidos:"Paredes Nina", tipo_documento:"DNI", num_documento:"81098765", fecha_registro:new Date("2025-09-10"), telefonos:["988222333"]}
+]);
+
+// ---------------- CONDUCTORES ----------------
+db.conductores.insertMany([
+{_id:1, nombre:"Pedro", apellidos:"Gomez Rios", tipo_documento:"DNI", num_documento:"41234567", fecha_registro:new Date("2025-01-15"), estado:"Activo", telefonos:["987654321","932109876"]},
+{_id:2, nombre:"Juan", apellidos:"Perez Castro", tipo_documento:"DNI", num_documento:"42345678", fecha_registro:new Date("2025-01-20"), estado:"Activo", telefonos:["976543210"]},
+{_id:3, nombre:"Miguel", apellidos:"Rojas Vega", tipo_documento:"DNI", num_documento:"43456789", fecha_registro:new Date("2025-02-01"), estado:"Inactivo", telefonos:["965432109"]},
+{_id:4, nombre:"Roberto", apellidos:"Silva Cruz", tipo_documento:"DNI", num_documento:"44567890", fecha_registro:new Date("2025-02-10"), estado:"Activo", telefonos:["954321098"]},
+{_id:5, nombre:"Fernando", apellidos:"Diaz Leon", tipo_documento:"DNI", num_documento:"45678901", fecha_registro:new Date("2025-02-18"), estado:"Activo", telefonos:["943210987"]},
+{_id:6, nombre:"Manuel", apellidos:"Flores Paz", tipo_documento:"Carnet de Extranjeria", num_documento:"CE87654321", fecha_registro:new Date("2025-03-01"), estado:"Inactivo", telefonos:[]},
+{_id:7, nombre:"Jose", apellidos:"Herrera Nunez", tipo_documento:"DNI", num_documento:"46789012", fecha_registro:new Date("2025-03-10"), estado:"Activo", telefonos:["921098765"]},
+{_id:8, nombre:"Ricardo", apellidos:"Chavez Mora", tipo_documento:"DNI", num_documento:"47890123", fecha_registro:new Date("2025-03-22"), estado:"Inactivo", telefonos:["910987654"]},
+{_id:9, nombre:"Andres", apellidos:"Salazar Rios", tipo_documento:"DNI", num_documento:"48901234", fecha_registro:new Date("2025-04-02"), estado:"Activo", telefonos:["998877665"]},
+{_id:10, nombre:"Cesar", apellidos:"Medina Torres", tipo_documento:"DNI", num_documento:"49012345", fecha_registro:new Date("2025-04-15"), estado:"Activo", telefonos:["987001122"]},
+{_id:11, nombre:"Oscar", apellidos:"Vidal Campos", tipo_documento:"DNI", num_documento:"50123456", fecha_registro:new Date("2025-04-28"), estado:"Inactivo", telefonos:["987002233"]},
+{_id:12, nombre:"Luisa", apellidos:"Camacho Flores", tipo_documento:"DNI", num_documento:"51234567", fecha_registro:new Date("2025-05-10"), estado:"Activo", telefonos:["987003344"]}
+]);
+
+// ---------------- RUTAS ----------------
+db.rutas.insertMany([
+{_id:1, origen:"Lima", destino:"Arequipa", distancia_km:1009.5, fecha_registro:new Date("2026-01-05"), id_vehiculo:1},
+{_id:2, origen:"Lima", destino:"Trujillo", distancia_km:561.3, fecha_registro:new Date("2026-01-08"), id_vehiculo:2},
+{_id:3, origen:"Lima", destino:"Chiclayo", distancia_km:770.2, fecha_registro:new Date("2026-01-11"), id_vehiculo:3},
+{_id:4, origen:"Lima", destino:"Piura", distancia_km:973.8, fecha_registro:new Date("2026-01-14"), id_vehiculo:4},
+{_id:5, origen:"Lima", destino:"Cusco", distancia_km:1105.6, fecha_registro:new Date("2026-01-17"), id_vehiculo:5},
+{_id:6, origen:"Lima", destino:"Ica", distancia_km:306.4, fecha_registro:new Date("2026-01-20"), id_vehiculo:6},
+{_id:7, origen:"Lima", destino:"Huancayo", distancia_km:298.7, fecha_registro:new Date("2026-01-23"), id_vehiculo:7},
+{_id:8, origen:"Lima", destino:"Tacna", distancia_km:1292.1, fecha_registro:new Date("2026-01-26"), id_vehiculo:8},
+{_id:9, origen:"Lima", destino:"Chimbote", distancia_km:420.9, fecha_registro:new Date("2026-01-29"), id_vehiculo:9},
+{_id:10, origen:"Arequipa", destino:"Lima", distancia_km:1009.5, fecha_registro:new Date("2026-02-01"), id_vehiculo:1}
+]);
+
+// ---------------- ASIGNACIONES ----------------
+db.asignaciones.insertMany([
+{_id:1, id_vehiculo:1, id_conductor:1, fecha_inicio:new Date("2026-01-05"), fecha_fin:new Date("2026-05-30"), estado:"Activo"},
+{_id:2, id_vehiculo:2, id_conductor:2, fecha_inicio:new Date("2026-01-06"), fecha_fin:new Date("2026-03-30"), estado:"Activo"},
+{_id:3, id_vehiculo:3, id_conductor:3, fecha_inicio:new Date("2026-01-07"), fecha_fin:new Date("2026-04-30"), estado:"Inactivo"},
+{_id:4, id_vehiculo:4, id_conductor:4, fecha_inicio:new Date("2026-01-08"), fecha_fin:new Date("2026-05-30"), estado:"Activo"},
+{_id:5, id_vehiculo:5, id_conductor:5, fecha_inicio:new Date("2026-01-09"), fecha_fin:new Date("2026-06-30"), estado:"Activo"},
+{_id:6, id_vehiculo:6, id_conductor:6, fecha_inicio:new Date("2026-01-10"), fecha_fin:new Date("2026-07-30"), estado:"Inactivo"},
+{_id:7, id_vehiculo:7, id_conductor:7, fecha_inicio:new Date("2026-01-11"), fecha_fin:new Date("2026-04-30"), estado:"Activo"},
+{_id:8, id_vehiculo:8, id_conductor:8, fecha_inicio:new Date("2026-01-12"), fecha_fin:new Date("2026-03-30"), estado:"Inactivo"},
+{_id:9, id_vehiculo:9, id_conductor:9, fecha_inicio:new Date("2026-01-13"), fecha_fin:new Date("2026-02-28"), estado:"Activo"},
+{_id:10, id_vehiculo:10, id_conductor:10, fecha_inicio:new Date("2026-01-14"), fecha_fin:new Date("2026-03-30"), estado:"Activo"},
+{_id:11, id_vehiculo:11, id_conductor:11, fecha_inicio:new Date("2026-01-15"), fecha_fin:new Date("2026-07-30"), estado:"Activo"},
+{_id:12, id_vehiculo:12, id_conductor:12, fecha_inicio:new Date("2026-01-16"), fecha_fin:new Date("2026-06-30"), estado:"Activo"}
+]);
+
+// ---------------- CONSUMOS_COMBUSTIBLE (embebe emision_co2, relacion 1-1) ----------------
+db.consumos_combustible.insertMany([
+{_id:1, fecha_registro:new Date("2026-01-05"), litros_consumidos:85.5, km_recorridos:850, id_vehiculo:1, emision_co2:{kg_co2:197.51, factor_aplicado:2.31}},
+{_id:2, fecha_registro:new Date("2026-01-10"), litros_consumidos:45.2, km_recorridos:480, id_vehiculo:2, emision_co2:{kg_co2:121.14, factor_aplicado:2.68}},
+{_id:3, fecha_registro:new Date("2026-01-15"), litros_consumidos:320.8, km_recorridos:680, id_vehiculo:3, emision_co2:{kg_co2:859.74, factor_aplicado:2.68}},
+{_id:4, fecha_registro:new Date("2026-01-20"), litros_consumidos:410.5, km_recorridos:820, id_vehiculo:4, emision_co2:{kg_co2:1100.14, factor_aplicado:2.68}},
+{_id:5, fecha_registro:new Date("2026-01-25"), litros_consumidos:380.0, km_recorridos:950, id_vehiculo:3, emision_co2:{kg_co2:1018.40, factor_aplicado:2.68}},
+{_id:6, fecha_registro:new Date("2026-02-01"), litros_consumidos:95.6, km_recorridos:260, id_vehiculo:1, emision_co2:{kg_co2:220.84, factor_aplicado:2.31}},
+{_id:7, fecha_registro:new Date("2026-02-05"), litros_consumidos:22.4, km_recorridos:250, id_vehiculo:1, emision_co2:{kg_co2:51.74, factor_aplicado:2.31}},
+{_id:8, fecha_registro:new Date("2026-02-10"), litros_consumidos:60.3, km_recorridos:360, id_vehiculo:8, emision_co2:{kg_co2:91.05, factor_aplicado:1.51}},
+{_id:9, fecha_registro:new Date("2026-02-15"), litros_consumidos:30.8, km_recorridos:360, id_vehiculo:9, emision_co2:{kg_co2:60.37, factor_aplicado:1.96}},
+{_id:10, fecha_registro:new Date("2026-02-20"), litros_consumidos:55.0, km_recorridos:420, id_vehiculo:10, emision_co2:{kg_co2:127.05, factor_aplicado:2.31}},
+{_id:11, fecha_registro:new Date("2026-02-25"), litros_consumidos:40.2, km_recorridos:380, id_vehiculo:11, emision_co2:{kg_co2:84.42, factor_aplicado:2.10}},
+{_id:12, fecha_registro:new Date("2026-03-01"), litros_consumidos:75.6, km_recorridos:510, id_vehiculo:11, emision_co2:{kg_co2:192.78, factor_aplicado:2.55}}
+]);
+
+// ---------------- MANTENIMIENTOS ----------------
+db.mantenimientos.insertMany([
+{_id:1, fecha_mantenimiento:new Date("2026-01-08"), descripcion:"Cambio de aceite y filtros", costo:250.00, id_administrador:1, id_vehiculo:1, tipo_mantenimiento:"Preventivo"},
+{_id:2, fecha_mantenimiento:new Date("2026-01-12"), descripcion:"Revision de frenos", costo:180.50, id_administrador:2, id_vehiculo:2, tipo_mantenimiento:"Correctivo"},
+{_id:3, fecha_mantenimiento:new Date("2026-01-18"), descripcion:"Cambio de llantas", costo:1200.00, id_administrador:3, id_vehiculo:3, tipo_mantenimiento:"Preventivo"},
+{_id:4, fecha_mantenimiento:new Date("2026-01-22"), descripcion:"Reparacion de motor", costo:3500.00, id_administrador:1, id_vehiculo:4, tipo_mantenimiento:"Correctivo"},
+{_id:5, fecha_mantenimiento:new Date("2026-02-02"), descripcion:"Revision tecnica anual", costo:150.00, id_administrador:4, id_vehiculo:5, tipo_mantenimiento:"Revision Tecnica"},
+{_id:6, fecha_mantenimiento:new Date("2026-02-08"), descripcion:"Cambio de bateria", costo:320.00, id_administrador:2, id_vehiculo:6, tipo_mantenimiento:"Preventivo"},
+{_id:7, fecha_mantenimiento:new Date("2026-02-12"), descripcion:"Analisis de sensores", costo:400.00, id_administrador:5, id_vehiculo:7, tipo_mantenimiento:"Predictivo"},
+{_id:8, fecha_mantenimiento:new Date("2026-02-18"), descripcion:"Reparacion de suspension", costo:980.00, id_administrador:3, id_vehiculo:8, tipo_mantenimiento:"Correctivo"},
+{_id:9, fecha_mantenimiento:new Date("2026-02-22"), descripcion:"Cambio de neumaticos", costo:1450.00, id_administrador:4, id_vehiculo:9, tipo_mantenimiento:"Cambio Neumaticos"},
+{_id:10, fecha_mantenimiento:new Date("2026-02-25"), descripcion:"Alineamiento y balanceo", costo:220.00, id_administrador:5, id_vehiculo:10, tipo_mantenimiento:"Alineamiento"},
+{_id:11, fecha_mantenimiento:new Date("2026-03-01"), descripcion:"Cambio de bateria", costo:310.00, id_administrador:1, id_vehiculo:11, tipo_mantenimiento:"Cambio de Bateria"},
+{_id:12, fecha_mantenimiento:new Date("2026-03-05"), descripcion:"Revision electrica", costo:275.00, id_administrador:2, id_vehiculo:12, tipo_mantenimiento:"Revision Electrica"}
+]);
+
+// ---------------- ALERTAS ----------------
+db.alertas.insertMany([
+{_id:1, mensaje:"Exceso de velocidad detectado", fecha_alerta:new Date("2026-01-06"), tipo_alerta:"Exceso Velocidad", id_administrador:1, id_vehiculo:1, estado:"Activo"},
+{_id:2, mensaje:"Mantenimiento proximo a vencer", fecha_alerta:new Date("2026-01-11"), tipo_alerta:"Mant. Vencido", id_administrador:2, id_vehiculo:2, estado:"Activo"},
+{_id:3, mensaje:"Documento de conductor vencido", fecha_alerta:new Date("2026-01-16"), tipo_alerta:"Doc. Vencido", id_administrador:3, id_vehiculo:3, estado:"Inactivo"},
+{_id:4, mensaje:"Consumo fuera de rango normal", fecha_alerta:new Date("2026-01-21"), tipo_alerta:"Consumo Anomalo", id_administrador:1, id_vehiculo:4, estado:"Activo"},
+{_id:5, mensaje:"Exceso de velocidad en ruta", fecha_alerta:new Date("2026-01-26"), tipo_alerta:"Exceso Velocidad", id_administrador:4, id_vehiculo:5, estado:"Activo"},
+{_id:6, mensaje:"Mantenimiento vencido urgente", fecha_alerta:new Date("2026-02-03"), tipo_alerta:"Mant. Vencido", id_administrador:5, id_vehiculo:6, estado:"En mantenimiento"},
+{_id:7, mensaje:"Consumo anomalo reportado", fecha_alerta:new Date("2026-02-09"), tipo_alerta:"Consumo Anomalo", id_administrador:2, id_vehiculo:7, estado:"Activo"},
+{_id:8, mensaje:"Desvio de ruta detectado", fecha_alerta:new Date("2026-02-14"), tipo_alerta:"Desvio de Ruta", id_administrador:3, id_vehiculo:9, estado:"Activo"},
+{_id:9, mensaje:"Frenado brusco registrado", fecha_alerta:new Date("2026-02-19"), tipo_alerta:"Frenado Brusco", id_administrador:4, id_vehiculo:10, estado:"Activo"},
+{_id:10, mensaje:"Exceso de carga en vehiculo", fecha_alerta:new Date("2026-02-24"), tipo_alerta:"Exceso de Carga", id_administrador:5, id_vehiculo:11, estado:"Inactivo"},
+{_id:11, mensaje:"Operacion fuera de horario", fecha_alerta:new Date("2026-03-01"), tipo_alerta:"Fuera de Horario", id_administrador:1, id_vehiculo:12, estado:"Activo"},
+{_id:12, mensaje:"Bateria de GPS baja", fecha_alerta:new Date("2026-03-04"), tipo_alerta:"Bateria Baja", id_administrador:2, id_vehiculo:3, estado:"Activo"}
+]);
+
+// ---------------- MODIFICACIONES_VEHICULO (auditoria) ----------------
+db.modificaciones_vehiculo.insertMany([
+{_id:1, fecha_modificacion:new Date("2026-01-10"), campo_modificado:"Capacidad_de_carga", valor_anterior:"900.00 kg", valor_nuevo:"1000.00 kg", id_vehiculo:1, id_administrador:1},
+{_id:2, fecha_modificacion:new Date("2026-01-15"), campo_modificado:"Sistema_de_frenos", valor_anterior:"Tambor trasero", valor_nuevo:"Disco ventilado", id_vehiculo:2, id_administrador:2},
+{_id:3, fecha_modificacion:new Date("2026-01-20"), campo_modificado:"Motor_Serie", valor_anterior:"D13K460", valor_nuevo:"D16K540", id_vehiculo:3, id_administrador:3},
+{_id:4, fecha_modificacion:new Date("2026-01-25"), campo_modificado:"Sistema_Suspension", valor_anterior:"Mecanica", valor_nuevo:"Neumatica", id_vehiculo:4, id_administrador:1},
+{_id:5, fecha_modificacion:new Date("2026-02-01"), campo_modificado:"Tipo_Combustible", valor_anterior:"Diesel B5", valor_nuevo:"GNV (Gas)", id_vehiculo:5, id_administrador:4},
+{_id:6, fecha_modificacion:new Date("2026-02-05"), campo_modificado:"Color_Pintura", valor_anterior:"Blanco", valor_nuevo:"Azul Empresa", id_vehiculo:6, id_administrador:2},
+{_id:7, fecha_modificacion:new Date("2026-02-10"), campo_modificado:"Capacidad_de_carga", valor_anterior:"600.00 kg", valor_nuevo:"700.00 kg", id_vehiculo:8, id_administrador:5},
+{_id:8, fecha_modificacion:new Date("2026-02-15"), campo_modificado:"Motor_Potencia", valor_anterior:"170 HP", valor_nuevo:"200 HP", id_vehiculo:10, id_administrador:3},
+{_id:9, fecha_modificacion:new Date("2026-02-20"), campo_modificado:"Sistema_de_frenos", valor_anterior:"ABS Estandar", valor_nuevo:"ABS + EBD", id_vehiculo:11, id_administrador:4},
+{_id:10, fecha_modificacion:new Date("2026-02-25"), campo_modificado:"Color_Pintura", valor_anterior:"Rojo", valor_nuevo:"Blanco Perlado", id_vehiculo:12, id_administrador:5},
+{_id:11, fecha_modificacion:new Date("2026-03-01"), campo_modificado:"Motor_Serie", valor_anterior:"D16K540", valor_nuevo:"D16K600", id_vehiculo:3, id_administrador:1},
+{_id:12, fecha_modificacion:new Date("2026-03-05"), campo_modificado:"Tipo_Combustible", valor_anterior:"Gasolina Regular", valor_nuevo:"GLP", id_vehiculo:6, id_administrador:2}
+]);
+
+// ---------------- INDICES ----------------
+db.vehiculos.createIndex({placa:1}, {unique:true});
+db.conductores.createIndex({num_documento:1}, {unique:true});
+db.administradores.createIndex({num_documento:1}, {unique:true});
+db.rutas.createIndex({id_vehiculo:1});
+db.asignaciones.createIndex({id_vehiculo:1, id_conductor:1});
+db.consumos_combustible.createIndex({id_vehiculo:1});
+db.mantenimientos.createIndex({id_vehiculo:1});
+db.alertas.createIndex({id_vehiculo:1});
+db.modificaciones_vehiculo.createIndex({id_vehiculo:1});
