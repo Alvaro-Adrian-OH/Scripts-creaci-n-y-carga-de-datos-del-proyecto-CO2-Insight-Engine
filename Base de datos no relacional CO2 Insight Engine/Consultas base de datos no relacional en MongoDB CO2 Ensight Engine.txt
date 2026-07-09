@@ -1,0 +1,352 @@
+Módulo 1: Gestión de Flota y Conductores
+
+1. Doble cruce de colecciones para obtener un reporte con la marca y modelo legible de cada vehículo.
+
+db.vehiculo.aggregate([
+  {
+    $lookup: {
+      from: "modelo",
+      localField: "ID_modelo",
+      foreignField: "_id",
+      as: "mod"
+    }
+  },
+  { $unwind: "$mod" },
+  {
+    $lookup: {
+      from: "marca",
+      localField: "mod.ID_marca",
+      foreignField: "_id",
+      as: "mar"
+    }
+  },
+  { $unwind: "$mar" },
+  {
+    $project: {
+      Placa: 1,
+      Capacidad_de_carga: 1,
+      Modelo: "$mod.Nombre_modelo",
+      Marca: "$mar.Nombre_marca"
+    }
+  }
+])
+
+2. Filtra las asignaciones vigentes y expone qué conductor está al mando de qué vehículo actualmente.
+
+db.asignacion.aggregate([
+  { $match: { ID_estado: 1 } },
+  {
+    $lookup: {
+      from: "conductor",
+      localField: "ID_Conductor",
+      foreignField: "_id",
+      as: "cond"
+    }
+  },
+  { $unwind: "$cond" },
+  {
+    $project: {
+      _id: 0,
+      ID_vehiculo: 1,
+      Fecha_inicio: 1,
+      Chofer: { $concat: ["$cond.Nombre", " ", "$cond.Apellidos"] }
+    }
+  }
+])
+
+3. Identifica y agrupa a los choferes que tienen múltiples números telefónicos de contacto registrados.
+
+db.telefonoConductor.aggregate([
+  {
+    $group: {
+      _id: "$ID_Conductor",
+      total: { $sum: 1 },
+      numeros: { $push: "$Numero_conductor" }
+    }
+  },
+  { $match: { total: { $gt: 1 } } }
+])
+
+4. Cuenta cuántos vehículos de la flota total utilizan cada tipo de combustible disponible.
+
+db.vehiculo.aggregate([
+  {
+    $group: {
+      _id: "$ID_Tipo_combustible",
+      cantidad: { $sum: 1 }
+    }
+  },
+  {
+    $lookup: {
+      from: "tipoCombustible",
+      localField: "_id",
+      foreignField: "_id",
+      as: "comb"
+    }
+  },
+  { $unwind: "$comb" },
+  {
+    $project: {
+      Tipo_Combustible: "$comb.Nombre",
+      Cantidad: "$cantidad",
+      _id: 0
+    }
+  }
+])
+
+5. Calcula el promedio global de carga de la flota y extrae las unidades que lo superan.
+
+db.vehiculo.aggregate([
+  {
+    $group: {
+      _id: null,
+      promedio: { $avg: "$Capacidad_de_carga" },
+      datos: { $push: "$$ROOT" }
+    }
+  },
+  { $unwind: "$datos" },
+  {
+    $project: {
+      Placa: "$datos.Placa",
+      Capacidad: "$datos.Capacidad_de_carga",
+      Promedio_Global: "$promedio",
+      Superior: { $gt: ["$datos.Capacidad_de_carga", "$promedio"] }
+    }
+  },
+  { $match: { Superior: true } }
+])
+
+Módulo 2: Logística y Consumo de Combustible
+
+6. Suma los kilómetros totales recorridos y el conteo de viajes completados por cada vehículo.
+
+db.ruta.aggregate([
+  {
+    $group: {
+      _id: "$ID_vehiculo",
+      total_km: { $sum: "$Distancia_KM" },
+      viajes: { $sum: 1 }
+    }
+  },
+  { $sort: { total_km: -1 } }
+])
+
+7. Divide los kilómetros entre los litros consumidos por unidad para evaluar el rendimiento del motor.
+
+db.consumoCombustible.aggregate([
+  {
+    $group: {
+      _id: "$ID_vehiculo",
+      total_l: { $sum: "$Litros_consumidos" },
+      total_km: { $sum: "$KM_recorridos" }
+    }
+  },
+  {
+    $project: {
+      ID_vehiculo: "$_id",
+      Rendimiento_KM_por_L: { $divide: ["$total_km", "$total_l"] }
+    }
+  },
+  { $sort: { Rendimiento_KM_por_L: -1 } }
+])
+
+8. Aísla mediante un filtro directo los viajes interprovinciales de larga distancia mayores a 500 KM.
+
+db.ruta.find({
+  Destino: { $ne: "Lima" },
+  Distancia_KM: { $gt: 500 }
+})
+
+9. Extrae el mes de las fechas y totaliza los litros consumidos para analizar gastos mensuales.
+
+db.consumoCombustible.aggregate([
+  {
+    $project: {
+      mes: { $month: { $dateFromString: { dateString: "$Fecha_registro" } } },
+      Litros_consumidos: 1
+    }
+  },
+  {
+    $group: {
+      _id: "$mes",
+      total_litros_mes: { $sum: "$Litros_consumidos" }
+    }
+  },
+  { $sort: { _id: 1 } }
+])
+
+10. Obtiene el total acumulado de dinero gastado en combustible por cada vehículo de la flota.
+
+db.consumoCombustible.aggregate([
+  {
+    $lookup: {
+      from: "vehiculo",
+      localField: "ID_vehiculo",
+      foreignField: "_id",
+      as: "veh"
+    }
+  },
+  { $unwind: "$veh" },
+  {
+    $lookup: {
+      from: "tipoCombustible",
+      localField: "veh.ID_Tipo_combustible",
+      foreignField: "_id",
+      as: "comb"
+    }
+  },
+  { $unwind: "$comb" },
+  {
+    $group: {
+      _id: "$ID_vehiculo",
+      Gasto_Total: { $sum: { $multiply: ["$Litros_consumidos", "$comb.Precio_unitario"] } }
+    }
+  },
+  { $sort: { Gasto_Total: -1 } }
+])
+
+Módulo 3: Monitoreo de Emisiones y Huella de Carbono
+
+11. Suma el tonelaje de CO2 acumulado por unidad para listar los 3 vehículos más contaminantes.
+
+db.emisionCo2.aggregate([
+  {
+    $lookup: {
+      from: "consumoCombustible",
+      localField: "ID_consumo",
+      foreignField: "_id",
+      as: "cons"
+    }
+  },
+  { $unwind: "$cons" },
+  {
+    $group: {
+      _id: "$cons.ID_vehiculo",
+      Total_Kg_CO2: { $sum: "$Kg_Co2" }
+    }
+  },
+  { $sort: { Total_Kg_CO2: -1 } },
+  { $limit: 3 }
+])
+
+12. Multiplica litros por factor de emisión y lo resta del valor guardado para auditar errores.
+
+db.emisionCo2.aggregate([
+  {
+    $lookup: {
+      from: "consumoCombustible",
+      localField: "ID_consumo",
+      foreignField: "_id",
+      as: "cons"
+    }
+  },
+  { $unwind: "$cons" },
+  {
+    $project: {
+      ID_consumo: 1,
+      Kg_CO2_Registrado: "$Kg_Co2",
+      Kg_CO2_Calculado: { $multiply: ["$cons.Litros_consumidos", "$Factor_aplicado"] },
+      Diferencia: {
+        $subtract: [
+          "$Kg_Co2",
+          { $multiply: ["$cons.Litros_consumidos", "$Factor_aplicado"] }
+        ]
+      }
+    }
+  }
+])
+
+Módulo 4: Control de Alertas e Incidentes
+
+13. Cuenta la cantidad de incidencias generadas en ruta clasificadas por su tipo de infracción.
+
+db.alerta.aggregate([
+  {
+    $group: {
+      _id: "$ID_Tipo_alerta",
+      total_incidentes: { $sum: 1 }
+    }
+  },
+  {
+    $lookup: {
+      from: "tipoAlerta",
+      localField: "_id",
+      foreignField: "_id",
+      as: "det"
+    }
+  },
+  { $unwind: "$det" },
+  {
+    $project: {
+      Alerta: "$det.Nombre",
+      Total: "$total_incidentes",
+      _id: 0
+    }
+  }
+])
+
+14. Extrae al instante aquellas alertas que permanecen guardadas en estados desatendidos o bajo revisión.
+
+db.alerta.find({
+  ID_estado: { $in: [2, 3] }
+})
+
+Módulo 5: Auditoría y Mantenimiento
+
+15. Suma los costos individuales de todos los ingresos a taller correspondientes a cada vehículo.
+
+db.mantenimiento.aggregate([
+  {
+    $group: {
+      _id: "$ID_vehiculo",
+      Inversion_Total: { $sum: "$Costo" },
+      Talleres: { $sum: 1 }
+    }
+  },
+  { $sort: { Inversion_Total: -1 } }
+])
+
+16. Recupera mediante comparación de texto las bitácoras de reparaciones ocurridas en enero de 2026.
+
+db.mantenimiento.find({
+  Fecha_mantenimiento: {
+    $gte: "2026-01-01",
+    $lte: "2026-01-31"
+  }
+})
+
+17. Examina el historial buscando modificaciones mecánicas críticas aplicadas directamente a motores o frenos.
+
+db.modificacionVehiculo.find({
+  Campo_modificado: { $in: ["Motor_Serie", "Sistema_de_frenos", "Motor_Potencia"] }
+})
+
+18. Cruza los datos de administradores para contar cuántas tareas procesó cada uno y medir su carga laboral.
+
+db.Administrador.aggregate([
+  {
+    $lookup: {
+      from: "mantenimiento",
+      localField: "_id",
+      foreignField: "ID_administrador",
+      as: "mants"
+    }
+  },
+  {
+    $lookup: {
+      from: "alerta",
+      localField: "_id",
+      foreignField: "ID_administrador",
+      as: "als"
+    }
+  },
+  {
+    $project: {
+      Nombre: { $concat: ["$Nombre_admin", " ", "$Apellidos"] },
+      Mantenimientos_Aprobados: { $size: "$mants" },
+      Alertas_Revisadas: { $size: "$als" },
+      Gestion_Total: { $add: [{ $size: "$mants" }, { $size: "$als" }] }
+    }
+  },
+  { $sort: { Gestion_Total: -1 } }
+])
